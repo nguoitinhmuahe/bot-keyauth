@@ -1,5 +1,9 @@
 readme create by chatgpt stupid
 
+**REPORTS BUGS**
+
+https://discord.gg/CU3SFAAEh4
+
 
 **SYBAU YOUNG**
 Bot Discord này dùng để quản lý key (license keys) với cơ sở dữ liệu SQLite và cung cấp API RESTful để xác thực key. Bot hỗ trợ các lệnh Discord để tạo, xóa, kiểm tra, và quản lý key, cùng với các cron job tự động xử lý key hết hạn, thông báo key sắp hết hạn, và dọn dẹp log cũ.
