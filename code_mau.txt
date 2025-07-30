@@ -1,0 +1,78 @@
+# Python
+# Javascript
+
+
+**Python**
+import requests
+import json
+import platform
+import uuid
+
+# Cấu hình
+API_BASE_URL = "http://localhost:5000/a/zx/cv/xcv/sd/g/xcv/sd/s/dv/xc/v/x/ứa/f/wsh"
+API_KEY = "your_api_key"  # Thay bằng API_KEY trong .env
+HEADERS = {
+    "X-API-Key": API_KEY,
+    "Content-Type": "application/json"
+}
+
+def get_hwid():
+    """Lấy HWID đơn giản dựa trên máy."""
+    return str(uuid.getnode())  # Dùng MAC address làm HWID
+
+def get_ip():
+    """Lấy IP của máy (giả lập bằng localhost)."""
+    return "127.0.0.1"  # Thay bằng logic lấy IP thật nếu cần
+
+def api_request(endpoint, data):
+    """Gửi request tới API và trả về kết quả."""
+    try:
+        response = requests.post(f"{API_BASE_URL}{endpoint}", headers=HEADERS, json=data)
+        response.raise_for_status()
+        return response.json()
+    except requests.RequestException as e:
+        return {"error": str(e), "status": "failed"}
+
+def check_key(key, hwid=None, ip=None):
+    """Gửi request xác thực key."""
+    if hwid is None:
+        hwid = get_hwid()
+    if ip is None:
+        ip = get_ip()
+    data = {"key": key, "hwid": hwid, "ip": ip}
+    return api_request("/key", data)
+
+def main():
+    # Test xác thực key
+    key = "ABC-uuid1-uuid2-uuid3-uuid4"  # Thay bằng key thực tế
+    print("Đang kiểm tra key...")
+    result = check_key(key)
+    print(json.dumps(result, indent=2))
+
+if __name__ == "__main__":
+    main()
+
+
+**JAVASCRIPT**
+// Code mẫu để giải mã /clientconfig
+const axios = require('axios');
+
+async function getClientConfig() {
+  try {
+    const response = await axios.get('http://127.0.0.1:5000' + process.env.API_CLIENTCONFIG_ENDPOINT, {
+      headers: { 'X-API-Key': process.env.API_KEY }
+    });
+    const data = response.data;
+    if (typeof data === 'string') {
+      // Giải mã base64
+      const decoded = Buffer.from(data, 'base64').toString();
+      return JSON.parse(decoded);
+    }
+    return data;
+  } catch (err) {
+    console.error('Error fetching client config:', err);
+    return null;
+  }
+}
+
+getClientConfig().then(config => console.log('Client config:', config));
